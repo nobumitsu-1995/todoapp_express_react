@@ -3,8 +3,8 @@ const router = require('express').Router(),
 
 router.get('/', todosController.index);
 router.get('/:id', todosController.show);
-router.post('/', todosController.create);
-router.put('/:id', todosController.update);
+router.post('/', todosController.validate, todosController.create);
+router.patch('/:id', todosController.validate, todosController.update);
 router.delete('/:id', todosController.delete);
 
 module.exports = router

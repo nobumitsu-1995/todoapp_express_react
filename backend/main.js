@@ -1,7 +1,9 @@
 const express = require('express'),
 app = express(),
 mongoose = require ('mongoose'),
+expressValidator = require('express-validator'),
 morgan = require('morgan'),
+methodOverride = require("method-override"),
 router = require('./routes/index')
 
 // 変数関連の定義
@@ -16,11 +18,15 @@ app.use(express.urlencoded({
   extended: false
 }))
 app.use(express.json())
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"]
+  })
+);
 
 // データベースの設定
 // mongooseでES6のネイティブのPromiseを使用することを許可
-mongoose.Promise = global.Promise
-
+// mongoose.Promise = global.Promise
 if (isTest) {
   // test環境データベース
   mongoose.connect(
@@ -52,6 +58,8 @@ db.once("open", () => {
   console.log("Successfully connected to MongoDB useing Mongoose");
 })
 
+app.use(expressValidator())
+
 // ルーティングの設定
 app.use("/", router)
 
@@ -59,3 +67,5 @@ app.use("/", router)
 app.listen(port, () => {
   console.log(`the server is running at PORT: ${port}`);
 })
+
+module.exports = app;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'),
 { Schema } = mongoose
 
-var todoSchema = new Schema({
+const todoSchema = new Schema({
   content: {
     type: String,
     required: true
