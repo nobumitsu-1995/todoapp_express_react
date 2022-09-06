@@ -1,16 +1,21 @@
 const express = require('express'),
 app = express(),
+cookieParser = require('cookie-parser'),
+expressSession = require('express-session'),
 mongoose = require ('mongoose'),
+passport = require('passport'),
 expressValidator = require('express-validator'),
 morgan = require('morgan'),
 methodOverride = require("method-override"),
-router = require('./routes/index')
+router = require('./routes/index'),
+User = require('./models/user')
 
 // 変数関連の定義
 const isTest = process.env.NODE_ENV === "test",
 isDevelop = process.env.NODE_ENV === "develop",
 isProduction = process.env.NODE_ENV === "production",
 port = isTest ? 3001 : 3000;
+require('dotenv').config();
 
 // applicationの設定
 app.use(morgan(":method :url :status * :response-time ms"))
@@ -23,10 +28,18 @@ app.use(
     methods: ["POST", "GET"]
   })
 );
-
+app.use(cookieParser(process.env.SECRET_PARSE_KEY))
+app.use(expressSession({
+  secret: process.env.SECRET_PARSE_KEY,
+  cookie: {
+    maxAge: 4000000
+  },
+  resave: false,
+  saveUninitialized: false
+}))
 // データベースの設定
 // mongooseでES6のネイティブのPromiseを使用することを許可
-// mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise
 if (isTest) {
   // test環境データベース
   mongoose.connect(
@@ -59,6 +72,11 @@ db.once("open", () => {
 })
 
 app.use(expressValidator())
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // ルーティングの設定
 app.use("/", router)
