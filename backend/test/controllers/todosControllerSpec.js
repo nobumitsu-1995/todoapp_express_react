@@ -175,18 +175,6 @@ describe('todosController', () => {
         content: "test"
       }
 
-      let result = todosController.getTodoParams(body)
-
-      expect(result).to.deep.includes({
-        content: "test"
-      })
-    })
-
-    it('return content', () => {
-      let body = {
-        content: "test"
-      }
-
       expect(todosController.getTodoParams(body)).to.deep.includes({
         content: "test"
       })
