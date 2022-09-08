@@ -25,11 +25,16 @@ module.exports = {
   },
 
   create: (req, res, next) => {
+    if (req.skip) return next();
     let newUser = new User(getUserParams(req.body))
     User.register(newUser, req.body.password, (error, user) => {
       if (user) {
+        console.log("success");
         res.json({
-          data: user
+          data: {
+            name: user.name,
+            email: user.email
+          }
         })
       } else {
         console.error(`POST /user: ${error.message}`);
@@ -39,6 +44,7 @@ module.exports = {
   },
 
   update: (req, res, next) => {
+    if (req.skip) return next();
     let userId = req.params.id,
     userParams = getUserParams(req.body)
     
@@ -47,7 +53,10 @@ module.exports = {
     }, { new: true })
       .then(user => {
         res.json({
-          data: user
+          data: {
+            name: user.name,
+            email: user.email
+          }
         })
       })
       .catch(error => {
@@ -73,7 +82,7 @@ module.exports = {
     req.sanitizeBody("email").normalizeEmail({
       all_lowercase: true
     }).trim();
-    req.chack("email", "Email is invalid").isEmail();
+    req.check("email", "Email is invalid").isEmail();
     req.check("password", "Password cannot be empty").notEmpty();
     req.getValidationResult().then(error => {
       if (!error.isEmpty()) {

@@ -96,7 +96,7 @@ describe('todosController', () => {
     })
   })
 
-  describe('/todos PUT', () => {
+  describe('/todos PATCH', () => {
     it('it should update todo', done => {
       let testTodo = new Todo({
         content: "test"

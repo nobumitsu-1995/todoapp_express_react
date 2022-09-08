@@ -56,6 +56,84 @@ describe('usersController', () => {
     })
   })
 
+  describe('/user POST', () => {
+    it('it should create new user', done => {
+      let userParams = {
+        name: "test user",
+        email: "Test@email.com",
+        password: "password123"
+      }
+
+      chai.request(app).post('/user')
+      .send(userParams).end((errors, res) => {
+        expect(res).to.be.status(200)
+        expect(res.body.data.name).to.equal("test user")
+        expect(res.body.data.email).to.equal("test@email.com")
+        expect(res.body.data.password).to.equal(undefined)
+        expect(errors).to.be.null
+        done()
+      })
+    })
+
+    it('it should not create new user with invalid email', done => {
+      let userParams = {
+        name: "test user",
+        email: "testemail.com",
+        password: "password123"
+      }
+
+      chai.request(app).post('/user')
+      .send(userParams).end((errors, res) => {
+        expect(res).to.be.status(500)
+        done()
+      })
+    })
+
+    it('it should not create new user without email', done => {
+      let userParams = {
+        name: "test user",
+        email: "",
+        password: "password123"
+      }
+
+      chai.request(app).post('/user')
+      .send(userParams).end((errors, res) => {
+        expect(res).to.be.status(500)
+        done()
+      })
+    })
+
+    it('it should not create new user without password', done => {
+      let userParams = {
+        name: "test user",
+        email: "test@email.com",
+        password: ""
+      }
+
+      chai.request(app).post('/user')
+      .send(userParams).end((errors, res) => {
+        expect(res).to.be.status(500)
+        done()
+      })
+    })
+
+    it('it should not create new user with same email', done => {
+      let userParams = {
+        name: "test user",
+        email: "test@email.com",
+        password: "password123"
+      }
+
+      User.create(userParams).then(() => {
+        chai.request(app).post('/user')
+        .send(userParams).end((errors, res) => {
+          expect(res).to.be.status(500)
+          done()
+        })
+      })
+    })
+  })
+
   describe('/user/:id DELETE', () => {
     it('it should delete user', done => {
       let testUser = new User({
@@ -90,6 +168,129 @@ describe('usersController', () => {
         .end((errors, res) => {
           expect(res).to.be.status(500)
           done()
+        })
+      })
+    })
+  })
+
+  describe('/user/:id PATCH', () => {
+    it('it should update user', done => {
+      let newUser = new User({
+        name: "test user",
+        email: "Test@email.com",
+        password: "password123"
+      })
+
+      newUser.save().then(user => {
+        let userId = user._id
+        chai.request(app).patch(`/user/${userId}`)
+        .send({
+          name: "updated!",
+          email: "Test@email.com",
+          password: "password123"
+        }).end((errors, res) => {
+          expect(res).to.be.status(200)
+          expect(res.body.data.name).to.equal("updated!")
+          expect(res.body.data.email).to.equal("test@email.com")
+          expect(res.body.data.password).to.equal(undefined)
+          expect(errors).to.be.null
+          done()
+        })
+      })
+    })
+
+    it('it should not update user with invalid email', done => {
+      let newUser = new User({
+        name: "test user",
+        email: "Test@email.com",
+        password: "password123"
+      })
+
+      newUser.save().then(user => {
+        let userId = user._id
+        chai.request(app).patch(`/user/${userId}`)
+        .send({
+          name: "test user",
+          email: "testemail.com",
+          password: "password123"
+        })
+        .end((errors, res) => {
+          expect(res).to.be.status(500)
+          done()
+        })
+      })
+    })
+
+    it('it should not update user without email', done => {
+      let newUser = new User({
+        name: "test user",
+        email: "Test@email.com",
+        password: "password123"
+      })
+
+      newUser.save().then(user => {
+        let userId = user._id
+        chai.request(app).patch(`/user/${userId}`)
+        .send({
+          name: "test user",
+          email: "",
+          password: "password123"
+        })
+        .end((errors, res) => {
+          expect(res).to.be.status(500)
+          done()
+        })
+      })
+    })
+
+    it('it should not update user without password', done => {
+      let newUser = new User({
+        name: "test user",
+        email: "Test@email.com",
+        password: "password123"
+      })
+
+      newUser.save().then(user => {
+        let userId = user._id
+        chai.request(app).patch(`/user/${userId}`)
+        .send({
+          name: "test user",
+          email: "test@email.com",
+          password: ""
+        })
+        .end((errors, res) => {
+          expect(res).to.be.status(500)
+          done()
+        })
+      })
+    })
+
+    it('it should not update user with same email', done => {
+      let newUser1 = new User({
+        name: "test user",
+        email: "Test@email.com",
+        password: "password123"
+      })
+
+      let newUser2 = new User({
+        name: "test user",
+        email: "Test2@email.com",
+        password: "password123"
+      })
+
+      newUser1.save().then(() => {
+        newUser2.save().then(user => {
+          let userId = user._id
+          chai.request(app).patch(`/user/${userId}`)
+          .send({
+            name: "test user",
+            email: "test@email.com",
+            password: "password123"
+          })
+          .end((errors, res) => {
+            expect(res).to.be.status(500)
+            done()
+          })
         })
       })
     })
