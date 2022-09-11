@@ -10,7 +10,8 @@ const Form = ({
   return (
     <form
       action={action}
-      onSubmit={onSubmit}  
+      onSubmit={onSubmit}
+      method="POST"
     > 
       {inputItems.map(inputItem => {
         return (

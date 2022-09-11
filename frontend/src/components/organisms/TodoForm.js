@@ -6,8 +6,8 @@ import { Form } from '../molecules'
 const TodoForm = () => {
   const [content, setContent] = useState("");
 
-  const handleInputChange = (e) => {
-    const { value } = e.target;
+  const handleInputChange = (event) => {
+    const { value } = event.target;
     setContent(value)
   }
 

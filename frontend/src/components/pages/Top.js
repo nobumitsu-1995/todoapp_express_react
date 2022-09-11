@@ -1,8 +1,9 @@
 import React from 'react'
+import TopTemplate from '../templates/TopTemplate'
 
 const Top = () => {
   return (
-    <div>Top</div>
+    <TopTemplate/>
   )
 }
 
