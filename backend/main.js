@@ -51,7 +51,7 @@ if (isTest) {
 }
 if (isDevelop) {
   mongoose.connect(
-    "mongodb://localhost:27017/todo_dev",
+    "mongodb://mongodb/todo_dev",
     {
       useNewUrlParser: true,
     }
@@ -59,7 +59,7 @@ if (isDevelop) {
 }
 if (isProduction) {
   mongoose.connect(
-    "mongodb://localhost:27017/todo",
+    "mongodb://mongodb/todo",
     {
       useNewUrlParser: true,
     }
