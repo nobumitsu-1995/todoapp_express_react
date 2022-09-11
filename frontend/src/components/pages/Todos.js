@@ -1,8 +1,9 @@
 import React from 'react'
+import Todo from '../templates/Todo'
 
 const Todos = () => {
   return (
-    <div>Todos</div>
+    <Todo todo={[]}/>
   )
 }
 

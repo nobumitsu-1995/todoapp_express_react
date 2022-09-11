@@ -2,21 +2,19 @@ import React from 'react'
 import MenuList from './MenuList'
 
 const TableItem = ({
-  heading,
-  data,
-  menuItems
+  todo
 }) => {
   return (
     <tr>
       <th>
-        {heading}
+        {todo._id}
       </th>
       <td>
-        {data}
+        {todo.content}
       </td>
       <td>
         <MenuList
-          menuItems={menuItems}
+          id={todo._id}
         />
       </td>
     </tr>

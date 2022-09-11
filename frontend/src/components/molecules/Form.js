@@ -4,11 +4,14 @@ import { Input } from '../atoms'
 
 const Form = ({
   action,
-  method,
   inputItems,
+  onSubmit
 }) => {
   return (
-    <form action={action} method={method}> 
+    <form
+      action={action}
+      onSubmit={onSubmit}  
+    > 
       {inputItems.map(inputItem => {
         return (
           <Input

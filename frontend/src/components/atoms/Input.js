@@ -11,7 +11,7 @@ const Input = ({
   return (
     <label
       className={className}
-      for={name}
+      htmlFor={name}
     >
       {label}
       <StyledInput
