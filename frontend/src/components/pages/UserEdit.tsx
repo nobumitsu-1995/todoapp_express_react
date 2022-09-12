@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserEdit = () => {
+const UserEdit: React.FC = () => {
   return (
     <div>UserEdit</div>
   )

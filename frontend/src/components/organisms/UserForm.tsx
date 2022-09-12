@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
-import { client } from '../../functions/axios';
+import { useNavigate } from 'react-router'
+import { client } from '../../utils/functions/axios';
 import { Title } from '../atoms';
 import { Form } from '../molecules';
 
-const UserForm = () => {
+const UserForm: React.FC = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     password: "",
     email: ""
   })
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setUser(value)
+    // setUser(value)
   }
 
   const inputItems = [
@@ -36,13 +38,15 @@ const UserForm = () => {
     },
   ]
 
-  const onSubmit = () => {
-    client.post('/user', user)
-      .then(user => {
-        
+  const onSubmit = async () => {
+    await client.post('/user', {
+      body: user
+    })
+      .then(() => {
+        navigate("/todos")
       })
-      .catch(error => {
-        console.error(error);
+      .catch(() => {
+        navigate("/todos")
       })
   }
 
@@ -52,7 +56,6 @@ const UserForm = () => {
         text="Create User"
       />
       <Form
-        action="/user"
         inputItems={inputItems}
         onSubmit={onSubmit}
       />

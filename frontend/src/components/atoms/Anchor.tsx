@@ -1,13 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-const Anchor = ({
+type Props = {
+  text: string;
+  onClick: (event: React.MouseEvent<HTMLInputElement>) => void
+}
+
+const Anchor: React.FC<Props> = ({
   text,
   onClick
 }) => {
   return (
     <StyledA
-      onClick={onClick}
+      onClick={()=>onClick}
     >
       {text}
     </StyledA>

@@ -1,7 +1,7 @@
 import React from 'react'
 import UserForm from '../organisms/UserForm'
 
-const TopTemplate = () => {
+const TopTemplate: React.FC = () => {
   return (
     <main>
       <section>

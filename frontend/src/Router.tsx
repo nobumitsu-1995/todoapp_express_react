@@ -1,7 +1,8 @@
+import React from 'react'
 import { Routes, Route } from 'react-router'
 import { Todos, Top, User, UserEdit } from './components/pages'
 
-const Router = () => {
+const Router: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Top/>}/>

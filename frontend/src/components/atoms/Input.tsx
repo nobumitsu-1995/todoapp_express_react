@@ -1,7 +1,14 @@
 import React from 'react'
-import styled from 'styled-components'
 
-const Input = ({
+type Props = {
+  name: string;
+  label: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  className?: string;
+}
+
+const Input: React.FC<Props> = ({
   label,
   name,
   value,
@@ -14,7 +21,7 @@ const Input = ({
       htmlFor={name}
     >
       {label}
-      <StyledInput
+      <input
         id={name}
         name={name}
         value={value}
@@ -26,7 +33,3 @@ const Input = ({
 }
 
 export default Input
-
-const StyledInput = styled.input`
-
-`
