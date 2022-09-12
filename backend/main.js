@@ -1,5 +1,6 @@
 const express = require('express'),
 app = express(),
+cors = require('cors'),
 cookieParser = require('cookie-parser'),
 expressSession = require('express-session'),
 mongoose = require ('mongoose'),
@@ -14,6 +15,7 @@ User = require('./models/user')
 const isTest = process.env.NODE_ENV === "test",
 isDevelop = process.env.NODE_ENV === "develop",
 isProduction = process.env.NODE_ENV === "production",
+client = process.env.CLIENT_URL || "http://localhost:8080",
 port = isTest ? 3001 : 3000;
 require('dotenv').config();
 
@@ -37,6 +39,9 @@ app.use(expressSession({
   resave: false,
   saveUninitialized: false
 }))
+app.use(cors({
+  origin: client
+}))
 // データベースの設定
 // mongooseでES6のネイティブのPromiseを使用することを許可
 mongoose.Promise = global.Promise
@@ -51,15 +56,16 @@ if (isTest) {
 }
 if (isDevelop) {
   mongoose.connect(
-    "mongodb://mongodb/todo_dev",
+    "mongodb://mongo:27017/todo_dev",
     {
-      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useNewUrlParser: true
     }
   )
 }
 if (isProduction) {
   mongoose.connect(
-    "mongodb://mongodb/todo",
+    "mongodb://mongo:27017/todo",
     {
       useNewUrlParser: true,
     }
