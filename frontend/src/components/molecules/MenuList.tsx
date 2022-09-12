@@ -1,7 +1,11 @@
 import React from 'react'
 import { Anchor } from '../atoms'
 
-const MenuList = ({
+type Props = {
+  id: string
+}
+
+const MenuList: React.FC<Props> = ({
   id
 }) => {
   const menuItems = [

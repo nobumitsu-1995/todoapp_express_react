@@ -1,14 +1,15 @@
 import React from 'react'
+import { useTodosContext } from '../../utils/functions/TodoContext'
 import { Title } from '../atoms'
 import { TableItem } from '../molecules'
 
-const TodoList = ({
-  todos
-}) => {
+const TodoList: React.FC = () => {
+  const { todos } = useTodosContext();
+
   return (
     <section>
       <Title text='Todo List'/>
-      {todos 
+      {todos.length > 0 
       ? <table>
           <tbody>
             {todos.map(todo => {

@@ -1,12 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Button = ({
+type Props = {
+  children: React.ReactNode;
+  onClick: (event: React.MouseEvent<HTMLInputElement>) => void
+}
+
+const Button: React.FC<Props> = ({
   children,
   onClick
 }) => {
   return (
-    <StyledButton onClick={onClick}>
+    <StyledButton onClick={()=>onClick}>
       {children}
     </StyledButton>
   )

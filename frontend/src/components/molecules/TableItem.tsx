@@ -1,7 +1,12 @@
 import React from 'react'
+import { Todo } from '../../utils/types/todo'
 import MenuList from './MenuList'
 
-const TableItem = ({
+type Props = {
+  todo: Todo
+}
+
+const TableItem: React.FC<Props> = ({
   todo
 }) => {
   return (

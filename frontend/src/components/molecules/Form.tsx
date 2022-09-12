@@ -1,16 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Input } from '../atoms'
 
-const Form = ({
-  action,
+type Props = {
+  inputItems: {
+    name: string;
+    label: string;
+    value: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  }[];
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
+const Form: React.FC<Props> = ({
   inputItems,
   onSubmit
 }) => {
   return (
     <form
-      action={action}
-      onSubmit={onSubmit}  
+      onSubmit={onSubmit}
     > 
       {inputItems.map(inputItem => {
         return (
@@ -23,7 +30,7 @@ const Form = ({
           />
         )
       })}
-      <StyledInput 
+      <input 
         value='作成'
         type='submit'
       />
@@ -32,7 +39,3 @@ const Form = ({
 }
 
 export default Form
-
-const StyledInput = styled.input`
-
-`

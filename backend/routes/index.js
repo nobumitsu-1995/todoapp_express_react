@@ -1,7 +1,7 @@
 const router = require('express').Router(),
 homeRoutes = require('./homeRoutes'),
 todoRoutes = require('./todoRoutes'),
-userRoutes = require('./userRoutes');
+userRoutes = require('./userRoutes')
 
 router.use("/todos", todoRoutes)
 router.use("/user", userRoutes)

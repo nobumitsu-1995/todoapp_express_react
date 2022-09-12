@@ -14,9 +14,7 @@ module.exports = {
     let userId = req.params.id;
     User.findById(userId)
       .then(user => {
-        res.json({
-          data: user
-        })
+        res.json(user)
       })
       .catch(error => {
         console.error(`GET /user/${userId}: ${error.message}`);
@@ -31,10 +29,8 @@ module.exports = {
       if (user) {
         console.log("success");
         res.json({
-          data: {
-            name: user.name,
-            email: user.email
-          }
+          name: user.name,
+          email: user.email
         })
       } else {
         console.error(`POST /user: ${error.message}`);
@@ -53,10 +49,8 @@ module.exports = {
     }, { new: true })
       .then(user => {
         res.json({
-          data: {
-            name: user.name,
-            email: user.email
-          }
+          name: user.name,
+          email: user.email
         })
       })
       .catch(error => {

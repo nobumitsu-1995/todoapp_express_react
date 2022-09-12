@@ -1,8 +1,8 @@
 import React from 'react'
 
-const User = () => {
+const User: React.FC = () => {
   return (
-    <div>User</div>
+    <div>User: React.FC</div>
   )
 }
 

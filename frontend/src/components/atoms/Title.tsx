@@ -1,7 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Title = ({
+type Props = {
+  text: string;
+}
+
+const Title: React.FC<Props> = ({
   text
 }) => {
   return (

@@ -11,9 +11,7 @@ module.exports = {
   index: (req, res, next) => {
     Todo.find({})
       .then(todos => {
-        res.json({
-          data: todos,
-        })
+        res.json(todos)
       })
       .catch(error => {
         console.error(`GET /todos: ${error.message}`);
@@ -25,9 +23,7 @@ module.exports = {
     let todoId = req.params.id;
     Todo.findById(todoId)
       .then(todo => {
-        res.json({
-          data: todo,
-        })
+        res.json(todo)
       })
       .catch(error => {
         console.error(`GET /todos/${todoId}: ${error.message}`);
@@ -40,9 +36,7 @@ module.exports = {
     let todoParams = getTodoParams(req.body);
     Todo.create(todoParams)
       .then(todo => {
-        res.json({
-          data: todo,
-        })
+        res.json(todo)
       })
       .catch(error => {
         console.error(`POST /todos: ${error.message}`);
@@ -58,9 +52,7 @@ module.exports = {
       $set: todoParams
     }, { new: true })
       .then(todo => {
-        res.json({
-          data: todo,
-        })
+        res.json(todo)
       })
       .catch(error => {
         console.error(`PUT /todos/${todoId}: ${error.message}`);
