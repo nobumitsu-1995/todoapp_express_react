@@ -1,38 +1,19 @@
 import React from 'react'
-import { Anchor } from '../atoms'
 
 type Props = {
-  id: string
+  menuItems: {
+    id: number;
+    item: React.ReactNode
+  }[]
 }
 
-const MenuList: React.FC<Props> = ({
-  id
-}) => {
-  const menuItems = [
-    {
-      text: "edit",
-      onClick: () => {
-        
-      }
-    },
-    {
-      text: "delete",
-      onClick: () => {
-
-      }
-    },
-  ]
-
-
+const MenuList: React.FC<Props> = ({ menuItems }) => {
   return (
     <ul>
       {menuItems.map(menuItem => {
         return (
-          <li key={`${menuItem.text}-${id}`}>
-            <Anchor
-              text={menuItem.text}
-              onClick={menuItem.onClick}
-            />
+          <li key={menuItem.id}>
+            {menuItem.item}
           </li>
         )
       })}

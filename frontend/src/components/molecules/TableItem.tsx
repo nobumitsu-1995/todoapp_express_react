@@ -3,11 +3,16 @@ import { Todo } from '../../utils/types/todo'
 import MenuList from './MenuList'
 
 type Props = {
-  todo: Todo
+  todo: Todo;
+  menuItems: {
+    id: number;
+    item: React.ReactNode
+  }[]
 }
 
 const TableItem: React.FC<Props> = ({
-  todo
+  todo,
+  menuItems
 }) => {
   return (
     <tr>
@@ -19,7 +24,7 @@ const TableItem: React.FC<Props> = ({
       </td>
       <td>
         <MenuList
-          id={todo._id}
+          menuItems={menuItems}
         />
       </td>
     </tr>

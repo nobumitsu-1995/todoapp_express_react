@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 type Props = {
-  children: React.ReactNode;
-  onClick: (event: React.MouseEvent<HTMLInputElement>) => void
+  children: React.ReactNode | string;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Button: React.FC<Props> = ({
@@ -11,7 +11,7 @@ const Button: React.FC<Props> = ({
   onClick
 }) => {
   return (
-    <StyledButton onClick={()=>onClick}>
+    <StyledButton onClick={onClick}>
       {children}
     </StyledButton>
   )
