@@ -4,15 +4,19 @@ import { Button } from '../atoms';
 
 type Props = {
   children: React.ReactNode | string;
+  id: string;
 }
 
-const ModalButton: React.FC<Props> = ({ children }) => {
-  const { isOpen, setIsOpen } = useModalContext()
-
+const ModalButton: React.FC<Props> = ({ children, id }) => {
+  const { isOpen, setIsOpen, setModalId } = useModalContext()
+  const handleClick = () => {
+    setIsOpen(!isOpen)
+    setModalId(id)
+  }
   return (
     <Button
       children={children}
-      onClick={() => {setIsOpen(!isOpen)}}
+      onClick={handleClick}
     />
   )
 }

@@ -1,29 +1,13 @@
 import React from 'react'
-import { ModalContextProvider, useModalContext } from '../../utils/functions/ModalContext'
+import { ModalContextProvider } from '../../utils/functions/ModalContext'
 import { useTodosContext } from '../../utils/functions/TodoContext'
-import { Button, Title } from '../atoms'
+import { Title } from '../atoms'
 import { TableItem } from '../molecules'
 import ModalBody from './ModalBody'
-import ModalButton from './ModalButton'
+import TodoModal from './TodoModal'
 
 const TodoList: React.FC = () => {
   const { todos } = useTodosContext();
-
-  const menuItems = [
-    {
-      id: 1,
-      item: <ModalButton 
-        children="edit"
-        />
-    },
-    {
-      id: 2,
-      item: <Button 
-        children="delete"
-        onClick={()=>alert("Delete Todo!")}
-      />
-    },
-  ]
 
   return (
     <ModalContextProvider>
@@ -35,15 +19,16 @@ const TodoList: React.FC = () => {
               {todos.map(todo => {
                 return (
                   <TableItem
-                  todo={todo} 
-                  menuItems={menuItems}                />
-                  )
-                })}
+                    key={todo._id}
+                    todo={todo} 
+                  />
+                )
+              })}
             </tbody>
           </table>
         : "nothing to do!!"}
       </section>
-      <ModalBody children={<p>ko</p>}/>
+      <ModalBody children={<TodoModal />}/>
     </ModalContextProvider>
   )
 }
