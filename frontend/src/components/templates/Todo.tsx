@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import styled from 'styled-components'
 import { client } from '../../utils/functions/axios';
 import { useTodosContext } from '../../utils/functions/TodoContext';
 import TodoForm from '../organisms/TodoForm'
@@ -18,10 +19,18 @@ const Todo: React.FC = () => {
   
   return (
     <main>
-      <TodoForm/>
-      <TodoList/>
+      <StyledDiv>
+        <TodoForm/>
+        <TodoList/>
+      </StyledDiv>
     </main>
   )
 }
 
 export default Todo
+
+const StyledDiv = styled.div`
+  margin: 0 auto;
+  width: 800px;
+  max-width: calc(100vw - 20px);
+`

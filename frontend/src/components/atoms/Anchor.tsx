@@ -2,19 +2,19 @@ import React from 'react'
 import styled from 'styled-components';
 
 type Props = {
-  text: string;
-  onClick: (event: React.MouseEvent<HTMLInputElement>) => void
+  children: React.ReactNode | string;
+  onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
 const Anchor: React.FC<Props> = ({
-  text,
+  children,
   onClick
 }) => {
   return (
     <StyledA
-      onClick={()=>onClick}
+      onClick={(event)=>onClick(event)}
     >
-      {text}
+      {children}
     </StyledA>
   )
 }
@@ -25,5 +25,11 @@ const StyledA = styled.a`
   text-decoration: underline;
   font-size: 1.2rem;
   font-weight: bold;
-  color: blue;
+  color: #7c83cc;
+  transition: opacity 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.6;
+  }
 `

@@ -20,7 +20,9 @@ const TodoForm: React.FC = () => {
       name: "content",
       label: "Todo Content",
       value: content,
+      error: "",
       onChange: handleInputChange,
+      type: "text"
     }
   ]
 
@@ -47,6 +49,7 @@ const TodoForm: React.FC = () => {
       <Form 
         inputItems={inputItems}
         onSubmit={(event)=>{onSubmit(event)}}
+        buttonText="Create"
       />
     </section>
   )

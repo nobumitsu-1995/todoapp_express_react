@@ -18,7 +18,8 @@ const Title: React.FC<Props> = ({
 export default Title
 
 const StyledH2 = styled.h2`
-  font-size: 2.4rem;
+  text-align: center;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #111;
 `

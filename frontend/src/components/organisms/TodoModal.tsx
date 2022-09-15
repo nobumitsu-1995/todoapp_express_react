@@ -27,7 +27,9 @@ const TodoModal: React.FC = () => {
       name: "content",
       label: "Todo Content",
       value: todo.content,
+      error: "",
       onChange: handleInputChange,
+      type: "text"
     }
   ]
 
@@ -47,11 +49,12 @@ const TodoModal: React.FC = () => {
   return (
     <section>
       <Title
-        text="Create Todo"
+        text="Edit Todo"
       />
       <Form 
         inputItems={inputItems}
         onSubmit={(event)=>{onSubmit(event)}}
+        buttonText="Update"
       />
     </section>
   )
