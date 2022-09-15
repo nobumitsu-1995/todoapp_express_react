@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components';
 import { ModalContextProvider } from '../../utils/functions/ModalContext'
 import { useTodosContext } from '../../utils/functions/TodoContext'
 import { Title } from '../atoms'
@@ -14,18 +15,23 @@ const TodoList: React.FC = () => {
       <section>
         <Title text='Todo List'/>
         {todos.length > 0 
-        ? <table>
+        ? <StyledTable>
             <tbody>
-              {todos.map(todo => {
+              <tr>
+                <th>Id</th>
+                <th colSpan={2}>Content</th>
+              </tr>
+              {todos.map((todo, index) => {
                 return (
                   <TableItem
                     key={todo._id}
+                    index={index + 1}
                     todo={todo} 
                   />
                 )
               })}
             </tbody>
-          </table>
+          </StyledTable>
         : "nothing to do!!"}
       </section>
       <ModalBody children={<TodoModal />}/>
@@ -34,3 +40,8 @@ const TodoList: React.FC = () => {
 }
 
 export default TodoList
+
+const StyledTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`

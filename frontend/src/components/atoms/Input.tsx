@@ -1,35 +1,64 @@
 import React from 'react'
+import styled from 'styled-components'
 
-type Props = {
+type InputProps = Omit<JSX.IntrinsicElements["input"], "ref">;
+type Props = InputProps & {
+  className?: string;
   name: string;
   label: string;
   value: string;
+  error: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  className?: string;
 }
 
 const Input: React.FC<Props> = ({
   label,
   name,
   value,
+  error,
   onChange,
-  className
+  className,
+  ...inputProps
 }) => {
   return (
-    <label
+    <StyledLabel
       className={className}
       htmlFor={name}
     >
-      {label}
-      <input
+      {label}{error && <StyledSpan>{error}</StyledSpan>}
+      <StyledInput
         id={name}
         name={name}
         value={value}
         placeholder={name}
         onChange={onChange}
+        {...inputProps}
       />
-    </label>
+    </StyledLabel>
   )
 }
 
 export default Input
+
+const StyledLabel = styled.label`
+  position: relative;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+`
+
+const StyledInput = styled.input`
+  padding: 5px 15px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1.4rem;
+`
+
+const StyledSpan = styled.span`
+  position: absolute;
+  right: 0;
+  text-align: right;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #E63946;
+`

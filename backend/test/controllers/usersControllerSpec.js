@@ -30,8 +30,8 @@ describe('usersController', () => {
   
         chai.request(app).get(`/user/${userId}`).end((errors, res) => {
           expect(res).to.be.status(200)
-          expect(res.body.data.name).to.eq("test user")
-          expect(res.body.data.email).to.eq("test@email.com")
+          expect(res.body.name).to.eq("test user")
+          expect(res.body.email).to.eq("test@email.com")
           expect(errors).to.be.null
           done()
         })
@@ -67,9 +67,9 @@ describe('usersController', () => {
       chai.request(app).post('/user')
       .send(userParams).end((errors, res) => {
         expect(res).to.be.status(200)
-        expect(res.body.data.name).to.equal("test user")
-        expect(res.body.data.email).to.equal("test@email.com")
-        expect(res.body.data.password).to.equal(undefined)
+        expect(res.body.name).to.equal("test user")
+        expect(res.body.email).to.equal("test@email.com")
+        expect(res.body.password).to.equal(undefined)
         expect(errors).to.be.null
         done()
       })
@@ -127,6 +127,7 @@ describe('usersController', () => {
       User.create(userParams).then(() => {
         chai.request(app).post('/user')
         .send(userParams).end((errors, res) => {
+          expect(res.body.error.name).to.equal("UserExistsError")
           expect(res).to.be.status(500)
           done()
         })
@@ -190,9 +191,9 @@ describe('usersController', () => {
           password: "password123"
         }).end((errors, res) => {
           expect(res).to.be.status(200)
-          expect(res.body.data.name).to.equal("updated!")
-          expect(res.body.data.email).to.equal("test@email.com")
-          expect(res.body.data.password).to.equal(undefined)
+          expect(res.body.name).to.equal("updated!")
+          expect(res.body.email).to.equal("test@email.com")
+          expect(res.body.password).to.equal(undefined)
           expect(errors).to.be.null
           done()
         })

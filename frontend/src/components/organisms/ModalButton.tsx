@@ -1,6 +1,6 @@
 import React from 'react'
 import { useModalContext } from '../../utils/functions/ModalContext';
-import { Button } from '../atoms';
+import { Anchor } from '../atoms';
 
 type Props = {
   children: React.ReactNode | string;
@@ -14,7 +14,7 @@ const ModalButton: React.FC<Props> = ({ children, id }) => {
     setModalId(id)
   }
   return (
-    <Button
+    <Anchor
       children={children}
       onClick={handleClick}
     />

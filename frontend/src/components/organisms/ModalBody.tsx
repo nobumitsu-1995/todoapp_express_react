@@ -32,16 +32,16 @@ const Overray = styled.div<{isOpen: boolean}>`
 `
 
 const Modal = styled.div`
-  background-color: #fff;
-  border: 2px solid #ddd;
-  border-radius: 10px;
+  margin: auto;
+  padding: 0 20px 20px;
+  max-width: 90vw;
+  width: 500px;
   position: absolute;
   top: 100px;
   left: 0;
   right: 0;
-  margin: auto;
   z-index: 5;
-  max-width: 90vw;
-  width: 800px;
-  height: 50vh;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 10px;
 `

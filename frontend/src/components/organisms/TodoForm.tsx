@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router';
 import { client } from '../../utils/functions/axios';
+import { validateTodo } from '../../utils/functions/Todo';
 import { useTodosContext } from '../../utils/functions/TodoContext';
 import { Title } from '../atoms'
 import { Form } from '../molecules'
 
 const TodoForm: React.FC = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [content, setContent] = useState("");
   const { todos, setTodos } = useTodosContext()
 
@@ -20,17 +22,22 @@ const TodoForm: React.FC = () => {
       name: "content",
       label: "Todo Content",
       value: content,
+      error: error,
       onChange: handleInputChange,
+      type: "text"
     }
   ]
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (validateTodo(content, setError)) return
+
     client.post('/todos', {
       content: content
     })
     .then((todo: any) => {
       setContent("");
+      setError("");
       setTodos([...todos, todo.data])
       navigate("/todos")
     })
@@ -47,6 +54,7 @@ const TodoForm: React.FC = () => {
       <Form 
         inputItems={inputItems}
         onSubmit={(event)=>{onSubmit(event)}}
+        buttonText="Create"
       />
     </section>
   )

@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components';
 
 type Props = {
   menuItems: {
@@ -9,7 +10,7 @@ type Props = {
 
 const MenuList: React.FC<Props> = ({ menuItems }) => {
   return (
-    <ul>
+    <StyledUl>
       {menuItems.map(menuItem => {
         return (
           <li key={menuItem.id}>
@@ -17,8 +18,16 @@ const MenuList: React.FC<Props> = ({ menuItems }) => {
           </li>
         )
       })}
-    </ul>
+    </StyledUl>
   )
 }
 
 export default MenuList
+
+const StyledUl = styled.ul`
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  list-style-type: none;
+`

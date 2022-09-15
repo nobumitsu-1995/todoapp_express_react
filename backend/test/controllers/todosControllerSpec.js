@@ -26,7 +26,7 @@ describe('todosController', () => {
       testTodo.save().then(() => {
         chai.request(app).get('/todos').end((errors, res) => {
           expect(res).to.be.status(200)
-          expect(res.body.data.length).to.eq(1)
+          expect(res.body.length).to.eq(1)
           expect(errors).to.be.null
           done()
         })
@@ -45,7 +45,7 @@ describe('todosController', () => {
   
         chai.request(app).get(`/todos/${todoId}`).end((errors, res) => {
           expect(res).to.be.status(200)
-          expect(res.body.data.content).to.eq("test")
+          expect(res.body.content).to.eq("test")
           expect(errors).to.be.null
           done()
         })
@@ -77,7 +77,7 @@ describe('todosController', () => {
       chai.request(app).post('/todos')
       .send(todoParams).end((errors, res) => {
         expect(res).to.be.status(200)
-        expect(res.body.data.content).to.equal("test")
+        expect(res.body.content).to.equal("test")
         expect(errors).to.be.null
         done()
       })
@@ -109,7 +109,7 @@ describe('todosController', () => {
           content: "updated!"
         }).end((errors, res) => {
           expect(res).to.be.status(200)
-          expect(res.body.data.content).to.equal("updated!")
+          expect(res.body.content).to.equal("updated!")
           expect(errors).to.be.null
           done()
         })
