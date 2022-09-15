@@ -22,8 +22,12 @@ module.exports = {
       })
   },
 
-  create: (req, res, next) => {
-    if (req.skip) return next();
+  create: (req, res) => {
+    if (req.skip) {
+      console.log("is slip!");
+      console.log(req);
+      return
+    }
     let newUser = new User(getUserParams(req.body))
     User.register(newUser, req.body.password, (error, user) => {
       if (user) {
@@ -34,7 +38,10 @@ module.exports = {
         })
       } else {
         console.error(`POST /user: ${error.message}`);
-        next(error)
+        res.status(500)
+        res.json({
+          error: error
+        })
       }
     })
   },
