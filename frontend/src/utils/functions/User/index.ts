@@ -11,13 +11,13 @@ export type FormData = {
 }
 
 export type SigninFormData = {
-  password: string;
-  email: string;
+  SignInPassword: string;
+  SignInEmail: string;
 }
 
 export type SigninError = {
-  password: string;
-  email: string;
+  SignInPassword: string;
+  SignInEmail: string;
 }
 
 export const validateUser = (
@@ -47,8 +47,8 @@ export const validateSingIn = (
   setError: React.Dispatch<React.SetStateAction<SigninError>>
 ) => {  
   let _error = {
-    password: "",
-    email: ""
+    SignInPassword: "",
+    SignInEmail: ""
   }
   let skipFetch = false
 

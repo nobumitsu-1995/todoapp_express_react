@@ -8,12 +8,12 @@ import { Form } from '../molecules';
 const SigninForm = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({
-    password: "",
-    email: "",
+    SignInPassword: "",
+    SignInEmail: "",
   })
   const [user, setUser] = useState({
-    password: "",
-    email: ""
+    SignInPassword: "",
+    SignInEmail: ""
   })
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -23,16 +23,16 @@ const SigninForm = () => {
     {
       name: "SignInEmail",
       label: "Email",
-      value: user.email,
-      error: error.email,
+      value: user.SignInEmail,
+      error: error.SignInEmail,
       onChange: handleInputChange,
       type: "email"
     },
     {
       name: "SignInPassword",
       label: "Password",
-      value: user.password,
-      error: error.password,
+      value: user.SignInPassword,
+      error: error.SignInPassword,
       onChange: handleInputChange,
       type: "password"
     },
@@ -41,7 +41,7 @@ const SigninForm = () => {
     event.preventDefault();
     if (validateSingIn(user, setError)) return
     
-    client.post('/signin', user)
+    client.post('/auth/login', user)
       .then(() => {
         navigate("/todos")
       })
