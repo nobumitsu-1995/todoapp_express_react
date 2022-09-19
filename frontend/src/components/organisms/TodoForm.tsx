@@ -33,7 +33,8 @@ const TodoForm: React.FC = () => {
     if (validateTodo(content, setError)) return
 
     client.post('/todos', {
-      content: content
+      content: content,
+      userId: sessionStorage.getItem('id')
     })
     .then((todo: any) => {
       setContent("");

@@ -1,7 +1,10 @@
 process.env.NODE_ENV = 'test';
 
 const Todo = require('../../models/todo'),
-{ expect } = require('chai');
+{ expect } = require('chai'),
+User = require('../../models/user');
+
+require( '../../main' );
 
 beforeEach( done => {
   Todo.remove({})
@@ -12,11 +15,16 @@ beforeEach( done => {
 
 describe('save Todo', () => {
   it('it should save one todo', (done) => {
-    let testTodo = new Todo({
-      content: "test"
+    User.create({
+      name: "sample",
+      email: "sample@email.com",
+      password: "password"
     })
-
-    testTodo.save()
+    .then(user => {
+      Todo.create({
+        content: "test",
+        userId: user._id
+      })
       .then(() => {
         Todo.find({})
           .then( result => {
@@ -28,16 +36,34 @@ describe('save Todo', () => {
             done()
           } )
       })
-  })
-  it('it should not save one todo', (done) => {
-    let testTodo = new Todo({
-      content: ""
     })
+  })
 
-    testTodo.save()
+  it('it should not save one todo', (done) => {
+    User.create({
+      name: "sample",
+      email: "sample@email.com",
+      password: "password"
+    })
+    .then(user => {
+      Todo.create({
+        content: "",
+        userId: user._id
+      })
       .catch(error => {
         expect(error).to.have.property('message')
         done()
       })
+    })
+  })
+
+  it('it should not save one todo without userId', (done) => {
+    Todo.create({
+      content: "",
+    })
+    .catch(error => {
+      expect(error).to.have.property('message')
+      done()
+    })
   })
 });

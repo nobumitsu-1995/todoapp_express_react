@@ -1,7 +1,7 @@
 import React, { useState }  from 'react'
 import { useNavigate } from 'react-router'
 import { client } from '../../utils/functions/axios';
-import { validateSingIn } from '../../utils/functions/User';
+import { validateUser } from '../../utils/functions/User';
 import { Title } from '../atoms';
 import { Form } from '../molecules';
 
@@ -21,7 +21,7 @@ const SigninForm = () => {
   }
   const inputItems = [
     {
-      name: "SignInEmail",
+      name: "email",
       label: "Email",
       value: user.email,
       error: error.email,
@@ -29,7 +29,7 @@ const SigninForm = () => {
       type: "email"
     },
     {
-      name: "SignInPassword",
+      name: "password",
       label: "Password",
       value: user.password,
       error: error.password,
@@ -39,14 +39,17 @@ const SigninForm = () => {
   ]
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (validateSingIn(user, setError)) return
+    if (validateUser(user, setError)) return
     
-    client.post('/signin', user)
-      .then(() => {
-        navigate("/todos")
+    client.post('/user/login', user)
+      .then((res) => {
+        sessionStorage.setItem('id', res.data.id)
+        if (sessionStorage.getItem('id')) {
+          navigate("/todos")
+        }
       })
       .catch((error: any) => {
-        navigate("/")
+        navigate("/signin")
       })
   }
 

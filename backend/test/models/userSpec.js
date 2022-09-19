@@ -3,6 +3,8 @@ process.env.NODE_ENV = 'test';
 const User = require('../../models/user'),
 { expect } = require('chai');
 
+require( '../../main' );
+
 beforeEach( done => {
   User.remove({})
     .then(() => {
@@ -46,7 +48,7 @@ describe('save User', () => {
             expect(result.length).to.eq(1)
             expect(result[0]).to.have.property('_id')
             expect(result[0]).to.have.property('createdAt')
-            expect(result[0]).not.to.eq("password123")
+            expect(result[0].password).not.to.eq("password123")
             done()
           })
       })
@@ -56,7 +58,7 @@ describe('save User', () => {
     let testUser = new User({
       name: "test user",
       email: "test@email.com ",
-      password: "password123"
+      password: "passord123"
     });
 
     testUser.save()
@@ -153,13 +155,13 @@ describe('save User', () => {
     let testUser = new User({
       name: "test",
       email: "test@email.com",
-      password: ""
     });
-
-    testUser.save()
-      .catch( error => {
-        expect(error).to.have.property('message')
-        done()
-      })
+    let password = ""
+    User.register(testUser, password, (error, user) => {
+      console.log(error);
+      expect(user).to.eq(undefined)
+      expect(!!error).to.be.true
+      done()
+    })
   })
 })

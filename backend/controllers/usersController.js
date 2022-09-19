@@ -1,10 +1,10 @@
-const User = require('../models/user')
+const User = require('../models/user'),
+passport = require('passport')
 
 const getUserParams = body => {
   return {
     name: body.name,
     email: body.email,
-    password: body.password
   }
 }
 
@@ -24,15 +24,19 @@ module.exports = {
 
   create: (req, res) => {
     if (req.skip) {
-      console.log("is slip!");
-      console.log(req);
-      return
+      res.status(500)
+      res.json({
+        message: req.session.flash
+      })
     }
+
     let newUser = new User(getUserParams(req.body))
+    
     User.register(newUser, req.body.password, (error, user) => {
       if (user) {
-        console.log("success");
+        req.flash("success", `${user.name}'s account is created!`)
         res.json({
+          id: user._id,
           name: user.name,
           email: user.email
         })
@@ -46,8 +50,14 @@ module.exports = {
     })
   },
 
-  update: (req, res, next) => {
-    if (req.skip) return next();
+  update: (req, res) => {
+    if (req.skip) {
+      res.status(500)
+      res.json({
+        message: req.session.flash
+      })
+    }
+    
     let userId = req.params.id,
     userParams = getUserParams(req.body)
     
@@ -56,13 +66,17 @@ module.exports = {
     }, { new: true })
       .then(user => {
         res.json({
+          id: user._id,
           name: user.name,
           email: user.email
         })
       })
       .catch(error => {
         console.error(`PATCH /user/${userId}: ${error.message}`);
-        next(error)
+        res.status(500)
+        res.json({
+          error: error
+        })
       })
   },
 
@@ -79,6 +93,22 @@ module.exports = {
       })
   },
 
+  authenticate: (req, res) => {
+    passport.authenticate("local", (err, user) => {
+      if(!user) {
+        res.status(401)
+        res.json({
+          message: "authenticate false!"
+        })
+      } else {
+        res.json({
+          id: user._id,
+          message: "authenticate success!"
+        })
+      }
+    })(req, res)
+  },
+
   validate: (req, res, next) => {
     req.sanitizeBody("email").normalizeEmail({
       all_lowercase: true
@@ -89,10 +119,11 @@ module.exports = {
       if (!error.isEmpty()) {
         req.skip = true
         let messages = error.array().map(e => e.msg);
-        next(new Error(messages.join(" and ")))
+        req.flash("error", messages.join(" and "))
+        next()
       } else {
         next()
       }
     })
-  }
+  },
 }

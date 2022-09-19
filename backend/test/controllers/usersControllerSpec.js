@@ -84,6 +84,8 @@ describe('usersController', () => {
 
       chai.request(app).post('/user')
       .send(userParams).end((errors, res) => {
+        expect(res.body.message).to.have.property("error")
+        expect(res.body.message.error[0]).to.equal("Email is invalid")
         expect(res).to.be.status(500)
         done()
       })
@@ -98,6 +100,8 @@ describe('usersController', () => {
 
       chai.request(app).post('/user')
       .send(userParams).end((errors, res) => {
+        expect(res.body.message).to.have.property("error")
+        expect(res.body.message.error[0]).to.equal("Email is invalid")
         expect(res).to.be.status(500)
         done()
       })
@@ -112,6 +116,8 @@ describe('usersController', () => {
 
       chai.request(app).post('/user')
       .send(userParams).end((errors, res) => {
+        expect(res.body.message).to.have.property("error")
+        expect(res.body.message.error[0]).to.equal("Password cannot be empty")
         expect(res).to.be.status(500)
         done()
       })
@@ -267,28 +273,29 @@ describe('usersController', () => {
     })
 
     it('it should not update user with same email', done => {
-      let newUser1 = new User({
+      let userParams1 = {
         name: "test user",
         email: "Test@email.com",
         password: "password123"
-      })
+      }
 
-      let newUser2 = new User({
+      let userParams2 = {
         name: "test user",
         email: "Test2@email.com",
         password: "password123"
-      })
-
-      newUser1.save().then(() => {
-        newUser2.save().then(user => {
-          let userId = user._id
-          chai.request(app).patch(`/user/${userId}`)
+      }
+      
+      User.create(userParams1).then(() => {
+        chai.request(app).post('/user')
+        .send(userParams2).end((errors, res) => {
+          expect(res).to.be.status(200)
+          chai.request(app).patch(`/user/${res.body.id}`)
           .send({
             name: "test user",
-            email: "test@email.com",
+            email: "Test@email.com",
             password: "password123"
           })
-          .end((errors, res) => {
+          .end((erorrs, res) => {
             expect(res).to.be.status(500)
             done()
           })
@@ -308,7 +315,27 @@ describe('usersController', () => {
       expect(usersController.getUserParams(body)).to.deep.includes({
         name: "test user",
         email: "test@email.com",
+      })
+    })
+  })
+
+  describe('authenticate User', () => {
+    it('Login success', done => {
+      let newUser = new User({
+        name: "test user",
+        email: "test@email.com",
         password: "password123"
+      })
+
+      newUser.save().then(() => {
+        chai.request(app).post('/user/login')
+        .send({
+          email: "test@email.com",
+          password: "password123"
+        }).end((errors, res) => {
+          expect(res).to.be.status(401)
+          done()
+        })
       })
     })
   })

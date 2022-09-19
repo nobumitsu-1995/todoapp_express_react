@@ -13,6 +13,7 @@
   "author": "nobumitsu masugata",
   "license": "ISC",
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.1",
@@ -23,6 +24,7 @@
     "mongoose": "^6.5.4",
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "passport-local-mongoose": "^7.1.2"
   },
   "devDependencies": {
@@ -30,6 +32,8 @@
     "chai-http": "^4.3.0",
     "dotenv": "^16.0.2",
     "eslint": "^8.23.0",
-    "nodemon": "^2.0.19"
+    "mocha": "^10.0.0",
+    "nodemon": "^2.0.19",
+    "superagent": "^8.0.0"
   }
 }
