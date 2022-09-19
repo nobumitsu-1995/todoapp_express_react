@@ -5,18 +5,22 @@ import styled from 'styled-components'
 
 const TopTemplate: React.FC = () => {
   return (
-    <main>
+    <StyledMain>
       <StyledSection>
         <h1>Todo Application</h1>
         <StyledP> You should <Link to="/">create user</Link> to start this TodoApplication!</StyledP>
         <StyledP> If you already have account, You may log in <Link to='/signin'>here</Link>!</StyledP>
         <Outlet />
       </StyledSection>
-    </main>
+    </StyledMain>
   )
 }
 
 export default TopTemplate
+
+const StyledMain = styled.main`
+  padding-top: 75px;
+`
 
 const StyledSection = styled.section`
   margin: 0 auto;

@@ -9,7 +9,7 @@ const Todo: React.FC = () => {
   const { setTodos } = useTodosContext();
 
   useEffect(() => {
-    client.get('/todos').then((result: any) => {
+    client.get(`/todos/index/${sessionStorage.getItem('id')}`).then((result: any) => {
       setTodos(result.data)
     })
     .catch((error: any) => {
@@ -18,16 +18,20 @@ const Todo: React.FC = () => {
   }, [setTodos])
   
   return (
-    <main>
+    <StyledMain>
       <StyledDiv>
         <TodoForm/>
         <TodoList/>
       </StyledDiv>
-    </main>
+    </StyledMain>
   )
 }
 
 export default Todo
+
+const StyledMain = styled.main`
+  padding-top: 75px;
+`
 
 const StyledDiv = styled.div`
   margin: 0 auto;
