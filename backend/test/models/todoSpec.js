@@ -3,6 +3,8 @@ process.env.NODE_ENV = 'test';
 const Todo = require('../../models/todo'),
 { expect } = require('chai');
 
+require( '../../main' );
+
 beforeEach( done => {
   Todo.remove({})
     .then(() => {

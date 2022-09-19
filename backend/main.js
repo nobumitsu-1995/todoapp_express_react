@@ -1,11 +1,12 @@
 const express = require('express'),
 app = express(),
 cors = require('cors'),
+passport = require('passport'),
 cookieParser = require('cookie-parser'),
 expressSession = require('express-session'),
-mongoose = require ('mongoose'),
-passport = require('passport'),
 expressValidator = require('express-validator'),
+connectFlash = require('connect-flash'),
+mongoose = require ('mongoose'),
 morgan = require('morgan'),
 methodOverride = require("method-override"),
 router = require('./routes/index'),
@@ -30,6 +31,7 @@ app.use(
     methods: ["POST", "GET"]
   })
 );
+app.use(expressValidator())
 app.use(cookieParser(process.env.SECRET_PARSE_KEY))
 app.use(expressSession({
   secret: process.env.SECRET_PARSE_KEY,
@@ -39,9 +41,27 @@ app.use(expressSession({
   resave: false,
   saveUninitialized: false
 }))
+
+app.use(connectFlash())
+
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+app.use((req, res, next) => {
+  res.locals.loggedIn = req.isAuthenticated();
+  res.locals.currentUser = req.user;
+  res.locals.flashMessages = req.flash();
+  next()
+})
+
 app.use(cors({
   origin: client
 }))
+
+
 // データベースの設定
 // mongooseでES6のネイティブのPromiseを使用することを許可
 mongoose.Promise = global.Promise
@@ -76,13 +96,6 @@ const db = mongoose.connection;
 db.once("open", () => {
   console.log("Successfully connected to MongoDB useing Mongoose");
 })
-
-app.use(expressValidator())
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 // ルーティングの設定
 app.use("/", router)

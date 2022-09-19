@@ -3,6 +3,8 @@ process.env.NODE_ENV = 'test';
 const User = require('../../models/user'),
 { expect } = require('chai');
 
+require( '../../main' );
+
 beforeEach( done => {
   User.remove({})
     .then(() => {
@@ -46,7 +48,7 @@ describe('save User', () => {
             expect(result.length).to.eq(1)
             expect(result[0]).to.have.property('_id')
             expect(result[0]).to.have.property('createdAt')
-            expect(result[0]).not.to.eq("password123")
+            expect(result[0].password).not.to.eq("password123")
             done()
           })
       })
