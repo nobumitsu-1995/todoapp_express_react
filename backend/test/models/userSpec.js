@@ -58,7 +58,7 @@ describe('save User', () => {
     let testUser = new User({
       name: "test user",
       email: "test@email.com ",
-      password: "password123"
+      password: "passord123"
     });
 
     testUser.save()
@@ -155,13 +155,13 @@ describe('save User', () => {
     let testUser = new User({
       name: "test",
       email: "test@email.com",
-      password: ""
     });
-
-    testUser.save()
-      .catch( error => {
-        expect(error).to.have.property('message')
-        done()
-      })
+    let password = ""
+    User.register(testUser, password, (error, user) => {
+      console.log(error);
+      expect(user).to.eq(undefined)
+      expect(!!error).to.be.true
+      done()
+    })
   })
 })

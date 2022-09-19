@@ -2,14 +2,17 @@ const Todo = require('../models/todo')
 
 const getTodoParams = body => {
   return {
-    content: body.content
+    content: body.content,
+    userId: body.userId
   }
 }
 
 module.exports = {
   getTodoParams,
   index: (req, res, next) => {
-    Todo.find({})
+    Todo.find({
+      userId: req.params.id
+    })
       .then(todos => {
         res.json(todos)
       })
