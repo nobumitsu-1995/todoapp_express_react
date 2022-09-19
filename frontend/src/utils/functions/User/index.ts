@@ -1,11 +1,14 @@
 export type Error = {
   name?: string;
-  password: string;
-  email: string;
+  password?: string;
+  email?: string;
 }
 
 export type FormData = {
-  name?: string;
+  name: string;
+  password: string;
+  email: string;
+} | {
   password: string;
   email: string;
 }
@@ -22,7 +25,7 @@ export const validateUser = (
   let skipFetch = false
 
   Object.keys(value).forEach(function(key) {
-    if (!value[key]) {
+    if (!(value[key])) {
       _error[key] = `${key} is required key!`
       skipFetch = true
     }

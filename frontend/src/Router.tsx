@@ -7,17 +7,20 @@ import { Todos, Top, User, UserEdit } from './components/pages'
 const Router: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Top/>}>
-        <Route path="" element={<SignupForm/>}/>
-        <Route path="signin" element={<SigninForm/>}/>
-      </Route>
-      {sessionStorage.getItem('id') && (
+      {sessionStorage.getItem('id') ? 
         <>
-          <Route path="/todos" element={<Todos/>}/>
+          <Route path="*" element={<Todos/>}/>
           <Route path="/user" element={<User/>}/>
           <Route path="/user/edit" element={<UserEdit/>}/>  
         </>
-      )}    
+        :
+        <>
+          <Route path="/" element={<Top/>}>
+            <Route index element={<SignupForm/>}/>
+            <Route path="signin" element={<SigninForm/>}/>
+          </Route>
+        </>
+      }    
     </Routes>
   )
 }

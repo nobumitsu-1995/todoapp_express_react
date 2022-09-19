@@ -52,8 +52,11 @@ const SignupForm: React.FC = () => {
     if (validateUser(user, setError)) return
     
     client.post('/user', user)
-      .then(() => {
-        navigate("/todos")
+      .then((res) => {
+        sessionStorage.setItem('id', res.data.id)
+        if (sessionStorage.getItem('id')) {
+          navigate("/todos")
+        }
       })
       .catch((error: any) => {
         if(error.response.data.error.name === "UserExistsError") {

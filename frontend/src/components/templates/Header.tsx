@@ -8,7 +8,9 @@ const Header = () => {
 
   const handleClick = () => {
     sessionStorage.removeItem('id')
-    navigate("/signin")
+    if (!sessionStorage.getItem('id')) {
+      navigate("/signin")
+    }
   }
 
   return (
