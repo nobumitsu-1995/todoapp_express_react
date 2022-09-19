@@ -40,15 +40,15 @@ const SigninForm = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validateUser(user, setError)) return
-    console.log("urnrunrun");
     
     client.post('/user/login', user)
-      .then(res => {
-        console.log(res);
-        navigate("/todos")
+      .then((res) => {
+        sessionStorage.setItem('id', res.data.id)
+        if (sessionStorage.getItem('id')) {
+          navigate("/todos")
+        }
       })
       .catch((error: any) => {
-        console.log(error);
         navigate("/signin")
       })
   }

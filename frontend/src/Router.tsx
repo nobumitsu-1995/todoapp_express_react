@@ -11,9 +11,13 @@ const Router: React.FC = () => {
         <Route path="" element={<SignupForm/>}/>
         <Route path="signin" element={<SigninForm/>}/>
       </Route>
-      <Route path="/todos" element={<Todos/>}/>
-      <Route path="/user" element={<User/>}/>
-      <Route path="/user/edit" element={<UserEdit/>}/>      
+      {sessionStorage.getItem('id') && (
+        <>
+          <Route path="/todos" element={<Todos/>}/>
+          <Route path="/user" element={<User/>}/>
+          <Route path="/user/edit" element={<UserEdit/>}/>  
+        </>
+      )}    
     </Routes>
   )
 }
