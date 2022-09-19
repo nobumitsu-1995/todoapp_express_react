@@ -1,19 +1,19 @@
 import React, { useState }  from 'react'
 import { useNavigate } from 'react-router'
 import { client } from '../../utils/functions/axios';
-import { validateSingIn } from '../../utils/functions/User';
+import { validateUser } from '../../utils/functions/User';
 import { Title } from '../atoms';
 import { Form } from '../molecules';
 
 const SigninForm = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({
-    SignInPassword: "",
-    SignInEmail: "",
+    password: "",
+    email: "",
   })
   const [user, setUser] = useState({
-    SignInPassword: "",
-    SignInEmail: ""
+    password: "",
+    email: ""
   })
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -21,32 +21,35 @@ const SigninForm = () => {
   }
   const inputItems = [
     {
-      name: "SignInEmail",
+      name: "email",
       label: "Email",
-      value: user.SignInEmail,
-      error: error.SignInEmail,
+      value: user.email,
+      error: error.email,
       onChange: handleInputChange,
       type: "email"
     },
     {
-      name: "SignInPassword",
+      name: "password",
       label: "Password",
-      value: user.SignInPassword,
-      error: error.SignInPassword,
+      value: user.password,
+      error: error.password,
       onChange: handleInputChange,
       type: "password"
     },
   ]
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (validateSingIn(user, setError)) return
+    if (validateUser(user, setError)) return
+    console.log("urnrunrun");
     
-    client.post('/auth/login', user)
-      .then(() => {
+    client.post('/user/login', user)
+      .then(res => {
+        console.log(res);
         navigate("/todos")
       })
       .catch((error: any) => {
-        navigate("/")
+        console.log(error);
+        navigate("/signin")
       })
   }
 
