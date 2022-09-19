@@ -94,14 +94,13 @@ module.exports = {
   },
 
   authenticate: (req, res) => {
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err, user) => {
       if(!user) {
         res.status(401)
         res.json({
           message: "authenticate false!"
         })
       } else {
-        console.log(info);
         res.json({
           id: user._id,
           message: "authenticate success!"
@@ -126,5 +125,5 @@ module.exports = {
         next()
       }
     })
-  }
+  },
 }

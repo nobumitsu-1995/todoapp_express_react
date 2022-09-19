@@ -333,7 +333,7 @@ describe('usersController', () => {
           email: "test@email.com",
           password: "password123"
         }).end((errors, res) => {
-          expect(res).to.be.status(404)
+          expect(res).to.be.status(401)
           done()
         })
       })

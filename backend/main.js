@@ -51,14 +51,13 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 app.use((req, res, next) => {
-  res.locals.loggedIn = req.isAuthenticated();
-  res.locals.currentUser = req.user;
   res.locals.flashMessages = req.flash();
   next()
 })
 
 app.use(cors({
-  origin: client
+  origin: client,
+  credentials: true,
 }))
 
 

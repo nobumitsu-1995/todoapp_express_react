@@ -10,7 +10,9 @@ router.post("/login", usersController.validate, usersController.authenticate)
 // Logout
 router.get("/logout", function(req, res){
   req.logout();
-  res.redirect("/");
+  res.json({
+    message: "Log out!"
+  })
 });
 
 module.exports = router;
